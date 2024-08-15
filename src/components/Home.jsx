@@ -194,7 +194,7 @@ const HomePage = () => {
 
     return (
         <Box w='full'>
-            <Heading as="h1" size={'lg'} mb={6}>Calculadora de Notas Finales</Heading>
+            <Heading as="h1" size={{ base: 'md', lg: 'lg' }} mb={6}>Calculadora de Notas Parciales</Heading>
             <VStack spacing={4} align="stretch" w='full'>
                 {grades.map((grade, index) => (
                     <Stack key={index} spacing={5} direction={'row'} display={'flex'} w='full' justifyContent={'space-between'}>
@@ -266,13 +266,13 @@ const HomePage = () => {
                         AGREGAR NOTA
                     </Button>
                     <Stack direction={'row'} justifyContent={'space between'}>
-                        <Text fontSize={'sm'} fontWeight={'bold'} alignSelf={'center'}>PORCENTAJE TOTAL:</Text>
-                        <CircularProgress value={totalWeight} thickness='7px' color='green.400'>
+                        <Text fontSize={{ base: 'xs', lg: 'sm' }} fontWeight={'bold'} alignSelf={'center'}>PORCENTAJE:</Text>
+                        <CircularProgress value={totalWeight} thickness='8px' color='green.400'>
                             <CircularProgressLabel fontWeight={'semibold'} fontSize={'xx-small'}>{totalWeight}%</CircularProgressLabel>
                         </CircularProgress>
                     </Stack>
                 </Stack>
-                <Button onClick={onOpen} isDisabled={!currentGrade} colorScheme="green" size={{ base: 'sm', lg: 'lg' }}>Guardar Curso</Button>
+                <Button onClick={onOpen} isDisabled={!currentGrade} colorScheme="green" size={{ base: 'md', lg: 'lg' }}>Guardar Curso</Button>
                 {
                     currentGrade ? (
                         <Alert
@@ -286,11 +286,11 @@ const HomePage = () => {
                         >
                             {
                                 currentGrade >= 10.5 && currentGrade <= 16 ? (
-                                    <FaRegGrimace color="green" size={40} />
-                                ) : currentGrade >= 16 ? <FaRegGrinHearts size={40} /> : <ImSad2 size={40} />
+                                    <FaRegGrimace size={25} />
+                                ) : currentGrade >= 16 ? <FaRegGrinHearts size={25} /> : <ImSad2 size={25} />
                             }
 
-                            <AlertTitle mt={4} mb={1} fontSize='lg'>
+                            <AlertTitle mb={1} fontSize={{ base: 'sm', lg: 'lg' }}>
                                 Nota Actual: {currentGrade.toFixed(2)}
                             </AlertTitle>
                         </Alert>
@@ -299,10 +299,10 @@ const HomePage = () => {
             </VStack>
             <Box mt={6}>
                 <Stack display={'flex'} justifyContent={'space-between'} direction={{ base: 'column', md: 'row' }}>
-                    <Heading as="h2" size="md" alignSelf={'center'}>Cursos Guardados:</Heading>
+                    <Heading as="h2" size={{ base: 'sm', lg: 'md' }} alignSelf={'center'}>Cursos Guardados:</Heading>
                     <Stack direction={'row'}>
                         <IconButton
-                            size={{ base: 'sm', lg: 'lg' }}
+                            size={{ base: 'xs', lg: 'lg' }}
                             w='full'
                             isLoading={loadingDowloadImage ? true : false}
                             colorScheme='messenger'
@@ -314,10 +314,10 @@ const HomePage = () => {
                                 },
                             }}
                             onClick={handleDownloadImage}
-                            icon={<BsFillImageFill fontSize={20} />}
+                            icon={<BsFillImageFill />}
                         />
                         <IconButton
-                            size={{ base: 'sm', lg: 'lg' }}
+                            size={{ base: 'xs', lg: 'lg' }}
                             w='full'
                             isLoading={loadingDowloadPdf ? true : false}
                             colorScheme='green'
@@ -329,7 +329,7 @@ const HomePage = () => {
                                 },
                             }}
                             onClick={handleDownloadPdf}
-                            icon={<FaCloudDownloadAlt fontSize={20} />}
+                            icon={<FaCloudDownloadAlt />}
                         />
                     </Stack>
                 </Stack>
@@ -343,20 +343,20 @@ const HomePage = () => {
                     p={6}
                     mx="auto"
                 >
-                    <Heading as="h2" size="lg" textAlign="center" mb={2} color="blue.600">
+                    <Heading as="h2" size={{ base: 'sm', lg: 'lg' }} textAlign="center" color="blue.600">
                         Mis Notas Finales 📚🎓
                     </Heading>
                     <Table variant="simple" colorScheme="blue">
-                        <TableCaption placement="top" fontWeight="bold" fontSize="lg">
+                        <TableCaption placement="top" fontWeight="bold" fontSize={{ base: 'xs', lg: 'lg' }}>
                             Semestre Académico {new Date().getFullYear()} II
                         </TableCaption>
                         <Thead>
                             <Tr bg="blue.50" _dark={{ bg: 'blue.800' }}>
-                                <Th fontSize="md" py={4}>Curso</Th>
-                                <Th isNumeric fontSize="md" py={4}>Nota Final</Th>
+                                <Th fontSize={{ base: 'xs', lg: 'sm' }} py={4}>Curso</Th>
+                                <Th isNumeric fontSize={{ base: 'xs', lg: 'sm' }} py={4}>Nota Final</Th>
                             </Tr>
                         </Thead>
-                        <Tbody fontSize="sm">
+                        <Tbody fontSize={{ base: 'xs', lg: 'md' }}>
                             {savedCourses.map((course, index) => (
                                 <Tr key={index}>
                                     <Td py={3}>{course.name}</Td>
@@ -369,10 +369,10 @@ const HomePage = () => {
                         <Tfoot>
                             {savedCourses.length > 0 && (
                                 <Tr bg="blue.100" _dark={{ bg: 'blue.900' }}>
-                                    <Td fontSize="md" py={4}>
+                                    <Td fontSize={{ base: 'xs', lg: 'md' }} py={4}>
                                         <strong>PROMEDIO PONDERADO</strong>
                                     </Td>
-                                    <Td isNumeric fontSize="md" py={4}>
+                                    <Td isNumeric fontSize={{ base: 'xs', lg: 'md' }} py={4}>
                                         <strong>{weightedAverage.toFixed(2)}</strong>
                                     </Td>
                                 </Tr>
@@ -382,8 +382,7 @@ const HomePage = () => {
                 </Box>
             </Box>
 
-            <Modal isOpen={isOpen} onClose={onClose} size={'xl'}
-            >
+            <Modal isOpen={isOpen} onClose={onClose} size={'xl'}>
                 <ModalOverlay backdropBlur={"blur(50px)"}/>
                 <ModalContent
                     _dark={{
