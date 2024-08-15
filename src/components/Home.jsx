@@ -19,6 +19,11 @@ import {
     FormLabel,
     Input,
     TableCaption,
+    Slider,
+    SliderTrack,
+    SliderFilledTrack,
+    SliderThumb,
+    Divider,
 } from '@chakra-ui/react';
 import { AddIcon, DeleteIcon } from '@chakra-ui/icons';
 import jsPDF from 'jspdf';
@@ -192,58 +197,82 @@ const HomePage = () => {
             <Heading as="h1" size={'lg'} mb={6}>Calculadora de Notas Finales</Heading>
             <VStack spacing={4} align="stretch" w='full'>
                 {grades.map((grade, index) => (
-                    <Stack key={index} spacing={3} direction={{ base: 'column', lg: 'row' }} display={'flex'} w='full' justifyContent={'space-between'}>
-                        <Text textAlign={'left'} w='full' fontWeight={'bold'}>Nota {index + 1}</Text>
-                        <Stack direction={{ base: 'column', md: 'row' }} w='full' display={'flex'} justifyContent={'space-between'}>
-                            <NumberInput
-                                value={grade.score}
-                                onChange={(valueString) => handleChange(index, 'score', valueString)}
-                                min={0}
-                                max={20}
-                                step={1.5}
-                                w='full'
-                            >
-                                <NumberInputField placeholder="Ingrese la nota" />
-                                <NumberInputStepper>
-                                    <NumberIncrementStepper />
-                                    <NumberDecrementStepper />
-                                </NumberInputStepper>
-                            </NumberInput>
-                            <NumberInput
-                                value={grade.weight}
-                                onChange={(value) => handleChange(index, 'weight', value)}
-                                min={0}
-                                step={5}
-                                max={100}
-                                w='full'
-                            >
-                                <NumberInputField placeholder="%" />
-                                <NumberInputStepper>
-                                    <NumberIncrementStepper />
-                                    <NumberDecrementStepper />
-                                </NumberInputStepper>
-                            </NumberInput>
-                            <IconButton
-                                icon={<AddIcon />}
-                                colorScheme='blue'
-                                onClick={handleAddGrade}
-                            />
-                            <IconButton
-                                icon={<DeleteIcon />}
-                                isDisabled={index <= 0}
-                                colorScheme='red'
-                                onClick={() => handleRemoveGrade(index)}
-                            />
+                    <Stack key={index} spacing={5} direction={'row'} display={'flex'} w='full' justifyContent={'space-between'}>
+                        <Text sx={{ writingMode: "vertical-lr", transform: "rotate(180deg)" }} textAlign={'center'} fontWeight={'bold'}>NOTA {index + 1}</Text>
+                        <Divider orientation='vertical' h={'auto'} bg={'gray.400'} />
+                        <Stack direction={{ base: 'column', md: 'column' }} w='full' display={'flex'} justifyContent={'space-between'}>
+                            <Stack direction={'row'} spacing={4}>
+                                <Slider value={grade.score} alignSelf={'center'} min={0} max={20} step={1} onChange={(valueString) => handleChange(index, 'score', valueString)}>
+                                    <SliderTrack>
+                                        <SliderFilledTrack />
+                                    </SliderTrack>
+                                    <SliderThumb boxSize={4} />
+                                </Slider>
+
+                            </Stack>
+                            <Stack direction={'row'} w='full' spacing={5}>
+                                <NumberInput
+                                    value={grade.score}
+                                    onChange={(valueString) => handleChange(index, 'score', valueString)}
+                                    min={0}
+                                    max={20}
+                                    step={0.1}
+                                    size={{ base: 'sm', lg: 'lg' }}
+                                    w="full"
+                                >
+                                    <NumberInputField placeholder="20.0" />
+                                    <NumberInputStepper>
+                                        <NumberIncrementStepper />
+                                        <NumberDecrementStepper />
+                                    </NumberInputStepper>
+                                </NumberInput>
+                                <NumberInput
+                                    value={grade.weight}
+                                    onChange={(value) => handleChange(index, 'weight', value)}
+                                    min={0}
+                                    max={100}
+                                    step={5}
+                                    size={{ base: 'sm', lg: 'lg' }}
+                                    w="full"
+                                >
+                                    <NumberInputField placeholder="%" />
+                                    <NumberInputStepper>
+                                        <NumberIncrementStepper />
+                                        <NumberDecrementStepper />
+                                    </NumberInputStepper>
+                                </NumberInput>
+
+                            </Stack>
                         </Stack>
+                        <IconButton
+                            icon={<DeleteIcon />}
+                            isDisabled={index <= 0}
+                            colorScheme='red'
+                            alignSelf={'center'}
+                            onClick={() => handleRemoveGrade(index)}
+                            size={'lg'}
+                        />
                     </Stack>
                 ))}
-                <Stack direction={'row'} justifyContent={'flex-end'}>
-                    <Text fontSize={'sm'} fontWeight={'bold'} alignSelf={'center'}>Porcentaje Total:</Text>
-                    <CircularProgress value={totalWeight} thickness='7px' color='yellow.400'>
-                        <CircularProgressLabel fontWeight={'semibold'} fontSize={'xx-small'}>{totalWeight}%</CircularProgressLabel>
-                    </CircularProgress>
+                <Divider />
+                <Stack direction={'row'} justifyContent={'space-between'} display='flex' w='full'>
+                    <Button
+                        leftIcon={<AddIcon />}
+                        colorScheme='blue'
+                        onClick={handleAddGrade}
+                        alignSelf={'center'}
+                        size={{ base: 'sm', lg: 'md' }}
+                    >
+                        AGREGAR NOTA
+                    </Button>
+                    <Stack direction={'row'} justifyContent={'space between'}>
+                        <Text fontSize={'sm'} fontWeight={'bold'} alignSelf={'center'}>PORCENTAJE TOTAL:</Text>
+                        <CircularProgress value={totalWeight} thickness='7px' color='green.400'>
+                            <CircularProgressLabel fontWeight={'semibold'} fontSize={'xx-small'}>{totalWeight}%</CircularProgressLabel>
+                        </CircularProgress>
+                    </Stack>
                 </Stack>
-                <Button onClick={onOpen} isDisabled={!currentGrade} colorScheme="green" size={'lg'}>Guardar Curso</Button>
+                <Button onClick={onOpen} isDisabled={!currentGrade} colorScheme="green" size={{ base: 'sm', lg: 'lg' }}>Guardar Curso</Button>
                 {
                     currentGrade ? (
                         <Alert
@@ -273,7 +302,8 @@ const HomePage = () => {
                     <Heading as="h2" size="md" alignSelf={'center'}>Cursos Guardados:</Heading>
                     <Stack direction={'row'}>
                         <IconButton
-                            size='lg'
+                            size={{ base: 'sm', lg: 'lg' }}
+                            w='full'
                             isLoading={loadingDowloadImage ? true : false}
                             colorScheme='messenger'
                             _dark={{
@@ -284,10 +314,11 @@ const HomePage = () => {
                                 },
                             }}
                             onClick={handleDownloadImage}
-                            icon={<BsFillImageFill fontSize={26} />}
+                            icon={<BsFillImageFill fontSize={20} />}
                         />
                         <IconButton
-                            size='lg'
+                            size={{ base: 'sm', lg: 'lg' }}
+                            w='full'
                             isLoading={loadingDowloadPdf ? true : false}
                             colorScheme='green'
                             _dark={{
@@ -298,7 +329,7 @@ const HomePage = () => {
                                 },
                             }}
                             onClick={handleDownloadPdf}
-                            icon={<FaCloudDownloadAlt fontSize={26} />}
+                            icon={<FaCloudDownloadAlt fontSize={20} />}
                         />
                     </Stack>
                 </Stack>
@@ -308,8 +339,7 @@ const HomePage = () => {
                     mt={4}
                     borderWidth="1px"
                     overflow="hidden"
-                    boxShadow="lg"
-                    bg="white"
+                    boxShadow="base"
                     p={6}
                     mx="auto"
                 >
@@ -318,17 +348,17 @@ const HomePage = () => {
                     </Heading>
                     <Table variant="simple" colorScheme="blue">
                         <TableCaption placement="top" fontWeight="bold" fontSize="lg">
-                            Semestre Académico 2024-I
+                            Semestre Académico {new Date().getFullYear()} II
                         </TableCaption>
                         <Thead>
-                            <Tr bg="blue.50">
+                            <Tr bg="blue.50" _dark={{ bg: 'blue.800' }}>
                                 <Th fontSize="md" py={4}>Curso</Th>
                                 <Th isNumeric fontSize="md" py={4}>Nota Final</Th>
                             </Tr>
                         </Thead>
                         <Tbody fontSize="sm">
                             {savedCourses.map((course, index) => (
-                                <Tr key={index} _hover={{ bg: "gray.50" }}>
+                                <Tr key={index}>
                                     <Td py={3}>{course.name}</Td>
                                     <Td isNumeric py={3} fontWeight="semibold">
                                         {course.finalGrade.toFixed(2)}
@@ -338,7 +368,7 @@ const HomePage = () => {
                         </Tbody>
                         <Tfoot>
                             {savedCourses.length > 0 && (
-                                <Tr bg="blue.100">
+                                <Tr bg="blue.100" _dark={{ bg: 'blue.900' }}>
                                     <Td fontSize="md" py={4}>
                                         <strong>PROMEDIO PONDERADO</strong>
                                     </Td>
@@ -352,9 +382,17 @@ const HomePage = () => {
                 </Box>
             </Box>
 
-            <Modal isOpen={isOpen} onClose={onClose} size={'xl'}>
-                <ModalOverlay />
-                <ModalContent>
+            <Modal isOpen={isOpen} onClose={onClose} size={'xl'}
+            >
+                <ModalOverlay backdropBlur={"blur(50px)"}/>
+                <ModalContent
+                    _dark={{
+                        bg: "rgba(19,22,28, 0.9)",
+                        color: "primary.100",
+                        backdropBlur: "blur(50px)"
+                    }}
+                    bg={'white'}
+                    backdropFilter="blur(10px)">
                     <ModalHeader>Guardar Curso</ModalHeader>
                     <ModalCloseButton />
                     <ModalBody>

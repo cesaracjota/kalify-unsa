@@ -1,17 +1,17 @@
 import { Box } from "@chakra-ui/react";
 import Header from "./Header";
 import Footer from "./Footer";
-import { FaSchool } from "react-icons/fa";
+// import { FaSchool } from "react-icons/fa";
 
 function Layout({ children }) {
 
 
     const navigationItems = [
-        {
-            icon: FaSchool,
-            label: "Examenes",
-            path: "/home/institutos"
-        },
+        // {
+        //     icon: FaSchool,
+        //     label: "Examenes",
+        //     path: "/home/institutos"
+        // },
     ]
 
     return (

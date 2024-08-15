@@ -157,8 +157,9 @@ function Header({ listItem }) {
                             _dark={{
                                 color: '#ffffff'
                             }}
+                            alignContent={'center'}
                         >
-                            <Text fontSize={'12px'} as="span">© 2023 AgylCode LLC</Text>
+                            <Text textAlign={'center'} fontSize={'12px'} as="span">© 2023 AgylCode LLC</Text>
                         </Stack>
                     </Flex>
                 </DrawerContent>
@@ -172,7 +173,7 @@ function Header({ listItem }) {
                     fontSize="xl"
                     size={'md'}
                     rounded={'lg'}
-                    variant="ghost"
+                    variant="outline"
                     colorScheme="gray"
                     icon={<Icon fontSize={24} as={HamburgerIcon} />}
                 />
